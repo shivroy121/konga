@@ -1,3 +1,23 @@
+services:
+ - name: mock-service
+   url: http://mockbin.org/request
+   path: /
+  # Entities can store tags as metadata
+   tags:
+   - example
+#   # Entities that have a foreign-key relationship can be nested:
+#   plugins:
+#   - name: key-auth
+# - name: another-service
+#   url: https://example.org
+   routes:
+    - name: mock-route
+#   # Relationships can also be specified between top-level entities,
+#   # either by name or by id
+      methods:
+      - GET
+      hosts: ["mockbin.org"]
+      paths: ["/mock"]
 
 
 http://localhost:8001/services  :-  Response 
@@ -89,8 +109,15 @@ http://localhost:8000/mock
  
  
  
-Error in log file:
+Error in kong log file:
 
+2019/12/30 17:46:44 [notice] 60919#0: *2 [kong] init.lua:298 declarative config loaded from /var/kong.yml, context: init_worker_by_lua*
+2019/12/30 17:46:44 [warn] 60917#0: *1 [lua] globalpatches.lua:52: sleep(): executing a blocking 'sleep' (0.001 seconds), context: init_worker_by_lua*
+2019/12/30 17:49:56 [error] 60920#0: *1586 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://3.228.254.201:80/request", host: "mockbin.org"
+2019/12/30 17:49:56 [error] 60920#0: *1586 [lua] balancer.lua:917: balancer_execute(): DNS resolution failed: dns server error: 100 cache only lookup failed. Tried: ["(short)mockbin.org:(na) - cache-miss","mockbin.org:1 - cache only lookup failed/dns server error: 100 cache only lookup failed","mockbin.org:33 - cache only lookup failed/dns server error: 100 cache only lookup failed","mockbin.org:5 - cache only lookup failed/dns server error: 100 cache only lookup failed"] while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://3.228.254.201:80/request", host: "mockbin.org"
+2019/12/30 17:49:56 [error] 60920#0: *1586 [lua] init.lua:800: balancer(): failed to retry the dns/balancer resolver for mockbin.org' with: dns server error: 100 cache only lookup failed while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://3.228.254.201:80/request", host: "mockbin.org"
+2019/12/30 17:57:02 [error] 60918#0: *6694 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://3.228.254.201:80/request", host: "mockbin.org"
+2019/12/30 17:58:02 [error] 60918#0: *6694 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://52.21.131.234:80/request", host: "mockbin.org"
 2019/12/30 17:58:02 [error] 60918#0: *6694 [lua] balancer.lua:917: balancer_execute(): DNS resolution failed: dns server error: 100 cache only lookup failed. Tried: ["(short)mockbin.org:(na) - cache-miss","mockbin.org:1 - cache only lookup failed/dns server error: 100 cache only lookup failed","mockbin.org:33 - cache only lookup failed/dns server error: 100 cache only lookup failed","mockbin.org:5 - cache only lookup failed/dns server error: 100 cache only lookup failed"] while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://52.21.131.234:80/request", host: "mockbin.org"
 2019/12/30 17:58:02 [error] 60918#0: *6694 [lua] init.lua:800: balancer(): failed to retry the dns/balancer resolver for mockbin.org' with: dns server error: 100 cache only lookup failed while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://52.21.131.234:80/request", host: "mockbin.org"
 
