@@ -1,0 +1,98 @@
+
+
+http://localhost:8001/services  :-  Response 
+
+
+{ 
+   "next":null,
+   "data":[ 
+      { 
+         "host":"mockbin.org",
+         "created_at":1577708204,
+         "connect_timeout":60000,
+         "id":"9ff0ee4e-7c2b-51e3-9490-f93f946547e8",
+         "protocol":"http",
+         "name":"mock-service",
+         "read_timeout":60000,
+         "port":80,
+         "path":"/request",
+         "updated_at":1577708204,
+         "client_certificate":null,
+         "tags":[ 
+            "example"
+         ],
+         "write_timeout":60000,
+         "retries":5
+      }
+   ]
+}
+
+
+http://localhost:8001/routes   Response
+
+{ 
+   "next":null,
+   "data":[ 
+      { 
+         "id":"21113e89-d366-5f75-b44a-cef07644d282",
+         "tags":null,
+         "updated_at":1577708204,
+         "destinations":null,
+         "headers":null,
+         "protocols":[ 
+            "http",
+            "https"
+         ],
+         "created_at":1577708204,
+         "snis":null,
+         "hosts":[ 
+            "mockbin.org"
+         ],
+         "name":"mock-route",
+         "preserve_host":false,
+         "regex_priority":0,
+         "strip_path":true,
+         "sources":null,
+         "methods":[ 
+            "GET"
+         ],
+         "https_redirect_status_code":426,
+         "paths":[ 
+            "/mock"
+         ],
+         "service":{ 
+            "id":"9ff0ee4e-7c2b-51e3-9490-f93f946547e8"
+         }
+      }
+   ]
+}
+
+
+
+
+http://localhost:8000/mock   
+
+{
+"message": "no Route matched with those values"
+}
+
+
+http://localhost:8000/mock   
+
+-header 
+ 
+ Host   mockbin.org
+ 
+ response status :- 500 
+ 
+ An unexpected error occurred
+ 
+ 
+ 
+Error in log file:
+
+2019/12/30 17:58:02 [error] 60918#0: *6694 [lua] balancer.lua:917: balancer_execute(): DNS resolution failed: dns server error: 100 cache only lookup failed. Tried: ["(short)mockbin.org:(na) - cache-miss","mockbin.org:1 - cache only lookup failed/dns server error: 100 cache only lookup failed","mockbin.org:33 - cache only lookup failed/dns server error: 100 cache only lookup failed","mockbin.org:5 - cache only lookup failed/dns server error: 100 cache only lookup failed"] while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://52.21.131.234:80/request", host: "mockbin.org"
+2019/12/30 17:58:02 [error] 60918#0: *6694 [lua] init.lua:800: balancer(): failed to retry the dns/balancer resolver for mockbin.org' with: dns server error: 100 cache only lookup failed while connecting to upstream, client: 172.21.200.35, server: kong, request: "GET /mock HTTP/1.1", upstream: "http://52.21.131.234:80/request", host: "mockbin.org"
+
+
+
